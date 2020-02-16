@@ -1,0 +1,22 @@
+{
+  "npmScope": "until-destroy-bug",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "bug": {
+      "tags": []
+    },
+    "bug-e2e": {
+      "tags": [],
+      "implicitDependencies": ["bug"]
+    }
+  }
+}

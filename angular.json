@@ -1,0 +1,134 @@
+{
+  "version": 1,
+  "projects": {
+    "bug": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "apps/bug",
+      "sourceRoot": "apps/bug/src",
+      "prefix": "until-destroy-bug",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/bug",
+            "index": "apps/bug/src/index.html",
+            "main": "apps/bug/src/main.ts",
+            "polyfills": "apps/bug/src/polyfills.ts",
+            "tsConfig": "apps/bug/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/bug/src/favicon.ico", "apps/bug/src/assets"],
+            "styles": ["apps/bug/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/bug/src/environments/environment.ts",
+                  "with": "apps/bug/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "bug:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "bug:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "bug:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/bug/tsconfig.app.json",
+              "apps/bug/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/bug/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/bug/jest.config.js",
+            "tsConfig": "apps/bug/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/bug/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "bug-e2e": {
+      "root": "apps/bug-e2e",
+      "sourceRoot": "apps/bug-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/bug-e2e/cypress.json",
+            "tsConfig": "apps/bug-e2e/tsconfig.e2e.json",
+            "devServerTarget": "bug:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "bug:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/bug-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/bug-e2e/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "bug"
+}
